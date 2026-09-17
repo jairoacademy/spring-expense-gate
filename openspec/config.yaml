@@ -16,6 +16,8 @@ context: |
   Base package: academy.jairo.expensegate
   Build tool: Maven wrapper (mvnw/mvnw.cmd)
   Domain: expense management / gateway ("expense gate")
+  Package structure per feature: academy.jairo.expensegate.<feature>.{entity,repository,service,controller}
+    (e.g. academy.jairo.expensegate.expense.entity, .repository, .service, .controller)
 
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
