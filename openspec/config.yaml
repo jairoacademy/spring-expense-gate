@@ -9,6 +9,14 @@ schema: spec-driven
 #     We use conventional commits
 #     Domain: e-commerce platform
 
+context: |
+  Tech stack: Java 21, Spring Boot 4.1.1 (Maven), Spring Data JPA, Spring Security, Spring Web MVC
+  Persistence: PostgreSQL 16 (Alpine), run locally via docker/docker-compose.yml (container expensegate-db, db/user/password: expensegate)
+  Local dev DB connection: jdbc:postgresql://localhost:5432/expensegate
+  Base package: academy.jairo.expensegate
+  Build tool: Maven wrapper (mvnw/mvnw.cmd)
+  Domain: expense management / gateway ("expense gate")
+
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
 # Example:
