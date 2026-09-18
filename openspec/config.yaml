@@ -16,8 +16,34 @@ context: |
   Base package: academy.jairo.expensegate
   Build tool: Maven wrapper (mvnw/mvnw.cmd)
   Domain: expense management / gateway ("expense gate")
-  Package structure per feature: academy.jairo.expensegate.<feature>.{entity,repository,service,controller}
-    (e.g. academy.jairo.expensegate.expense.entity, .repository, .service, .controller)
+  Package structure by layer (technical layering, not per feature): all classes of the same
+  layer live together under a single top-level package named after the layer:
+    academy.jairo.expensegate.entity      (all JPA entities)
+    academy.jairo.expensegate.enums       (all enums, including ones used by entities)
+    academy.jairo.expensegate.repository  (all Spring Data repositories)
+    academy.jairo.expensegate.service     (all services)
+    academy.jairo.expensegate.controller  (all REST controllers)
+  e.g. academy.jairo.expensegate.entity.User, academy.jairo.expensegate.enums.Department
+
+  JPA entity conventions (apply to every entity in academy.jairo.expensegate.entity):
+    - No Lombok: explicit no-args constructor (required by JPA) plus an all-args constructor
+      listing every mapped attribute in field declaration order, including the id and any
+      owning-side relationship field (a @ManyToOne reference, or the collection on the
+      owning side of a @ManyToMany/@OneToMany).
+    - Relationships are unidirectional by default: map only the owning/natural side as a
+      Java field. Do NOT add the inverse mappedBy side unless a specific requirement
+      explicitly needs direct navigation from that side.
+    - @Id @GeneratedValue with no explicit strategy (JPA default AUTO) unless a requirement
+      calls for a specific strategy.
+    - @Table(name = "tb_<entity>") on every entity; join tables also use the tb_ prefix:
+      @JoinTable(name = "tb_<owner>_<inverse>", ...).
+    - @ManyToMany uses fetch = FetchType.EAGER. Required @ManyToOne uses
+      fetch = FetchType.LAZY and optional = false, with no explicit @JoinColumn unless a
+      non-default column name is needed.
+    - Required attributes use @Column(nullable = false) (or optional = false on @ManyToOne).
+      Attributes that must be unique additionally use @Column(unique = true).
+    - Enum attributes use @Enumerated(EnumType.STRING). Collections are Set<>, initialized
+      to new HashSet<>().
 
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
